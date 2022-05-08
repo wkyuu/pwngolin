@@ -44,7 +44,7 @@ class funcion():
                 plt = hex(self.elf.plt[self.name])
             except BaseException:
                 pass
-            print(self.name + '.plt =>', plt)
+            print(self.name + '_plt =', plt)
                 
         def got(self):
             got = None
@@ -52,7 +52,7 @@ class funcion():
                 got = hex(self.elf.got[self.name])
             except BaseException:
                 pass
-            print(self.name + '.got =>', got)
+            print(self.name + '_got =', got)
 
         def string(self):
             str_bin_sh = None
@@ -60,7 +60,7 @@ class funcion():
                 str_bin_sh = hex(next(self.elf.search(b"/bin/sh")))
             except BaseException:
                 pass
-            print(self.name + ' =>', str_bin_sh)
+            print(self.name + ' =', str_bin_sh)
                 
         def myAsm(self):
             ret_addr = None
@@ -68,7 +68,7 @@ class funcion():
                 ret_addr = hex(next(self.elf.search(b'\xc3')))
             except BaseException:
                 pass
-            print(self.name + ' =>', ret_addr)
+            print(self.name + ' =', ret_addr)
         
         case = {
             'plt': plt,
