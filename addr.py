@@ -9,8 +9,8 @@ funclist = [
     ['puts', 'got'], 
     ['write', 'plt'], 
     ['write', 'got'], 
-    ['str_binsh', 'string'], 
-    ['ret', 'asm'],
+    ['binsh_addr', 'string'], 
+    ['ret_addr', 'asm'],
     ]
 
 def getFile():
@@ -39,32 +39,36 @@ class funcion():
     def start(self):
     
         def plt(self):
+            plt = None
             try:
                 plt = hex(self.elf.plt[self.name])
-                print(self.name, '=> ', plt)
             except BaseException:
-                print(self.name, '=> ', None)
+                pass
+            print(self.name + '.plt =>', plt)
                 
         def got(self):
+            got = None
             try:
                 got = hex(self.elf.got[self.name])
-                print(self.name, '=> ', got)
             except BaseException:
-                print(self.name, '=> ', None)
+                pass
+            print(self.name + '.got =>', got)
 
         def string(self):
+            str_bin_sh = None
             try:
                 str_bin_sh = hex(next(self.elf.search(b"/bin/sh")))
-                print(self.name, '=> ', str_bin_sh)
             except BaseException:
-                print(self.name, '=> ', None)
+                pass
+            print(self.name + ' =>', str_bin_sh)
                 
         def myAsm(self):
+            ret_addr = None
             try:
                 ret_addr = hex(next(self.elf.search(b'\xc3')))
-                print(self.name, '=> ', ret_addr)
             except BaseException:
-                print(self.name, '=> ', None)
+                pass
+            print(self.name + ' =>', ret_addr)
         
         case = {
             'plt': plt,
