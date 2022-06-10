@@ -16,14 +16,10 @@ example: `python addr.py my_elf_test`
 output:
 
 ```bash
-checksec内容 
-
+checksec内容
 system_plt = xxx
-
 system_got = xxx
-
 ...
-
 ret_addr = xxx
 
 ```
